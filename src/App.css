@@ -1,0 +1,68 @@
+
+
+:root {
+  --backcolor: #705656;
+  --dark:      #b68551;
+  --light:     #e5bf99;
+  --legend:    azure;
+  --hover:     #ffadad
+}
+.board {
+  /* width: var(--size); */
+  /* height: var(--size); */
+  border: 32px solid;
+  border-color: var(--backcolor);
+  border-radius: 0.2rem;
+}
+.square {
+  /* border: 1px black solid; */
+  width: 64px;
+  height: 64px;
+  position: relative;
+}
+.white{
+  background: var(--light);
+}
+.black{
+  background: var(--dark)
+}
+.board tr::before {
+  content: attr(data-line);
+  position: absolute;
+  margin: 1.8rem 0 0rem -1.5rem;
+  color: var(--legend);
+}
+.board tr::after {
+  content: attr(data-line);
+  position: absolute;
+  margin: 1.8rem 0 0rem 0.8rem;
+  color: var(--legend);
+}
+.board tr:first-child > td::before {
+  content: attr(data-col);
+  position: absolute;
+  margin: -4rem 0 0rem 1.6rem;
+  color: var(--legend);
+}
+.board tr:last-child > td::after {
+  content: attr(data-col);
+  position: absolute;
+  margin: 2.6rem 0 0rem 1.6rem;
+  color: var(--legend);
+}
+td:hover {
+  /* background: var(--hover); */
+  cursor: pointer
+}
+img {
+    position: absolute;
+    bottom: 10%;
+    left: 10%;
+}
+svg {
+    width: 42px;
+    height: 42px;
+    position: absolute;
+    bottom: 15%;
+    left: 15%;
+}
