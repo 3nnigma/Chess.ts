@@ -66,3 +66,17 @@ svg {
     bottom: 15%;
     left: 15%;
 }
+
+.selected {
+    background: brown;
+}
+
+.avaiable {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: green;
+    position: absolute;
+    left: 38%;
+    bottom: 40%;
+}

@@ -15,19 +15,23 @@ export enum FigureNames {
 export class Figure {
   color: Colors;
   name: FigureNames;
+  cell: Cell;
   icon: ReactNode | null;
   id: number;
 
-  constructor(color: Colors, name: FigureNames) {
+  constructor(color: Colors, cell: Cell) {
     this.color = color;
-    this.name = name;
+    this.cell = cell;
+    this.cell.figure = this
     this.icon = null;
+    this.name = FigureNames.FIGURE
     this.id = Math.random();
   }
 
-  canMove(target: Cell): boolean {
+  public canMove(target: Cell): boolean {
+    if (target.figure?.color === this.color || target.figure?.name === FigureNames.KING) return false;
     return true;
   }
 
-  moveFigure(target: Cell): void {}
+  public moveFigure(_target: Cell): void {}
 }

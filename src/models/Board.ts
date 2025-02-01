@@ -1,7 +1,6 @@
 import { Cell } from "./Cell";
 import { Colors } from "./Colors";
 import { Bishop } from "./figures/Bishop";
-import { FigureNames } from "./figures/Figure";
 import { King } from "./figures/King";
 import { Knight } from "./figures/Knight";
 import { Pawn } from "./figures/Pawn";
@@ -17,66 +16,79 @@ export class Board {
       const row: Cell[] = []
       for (let j = 0; j < 8; j++) {
         if((i+j) % 2 !== 0){
-          row.push(new Cell(j, i, Colors.BLACK, null))
+          row.push(new Cell(this, j, i, Colors.BLACK, null))
         } else {
-          row.push(new Cell(j, i, Colors.WHITE, null))
+          row.push(new Cell(this, j, i, Colors.WHITE, null))
         }
       }
       this.cells.push(row)
     }
   }
 
-  addPawns() {
+  public addPawns() {
     for (let i = 0; i < 8; i++) {
-      this.cells[1][i].figure = new Pawn(Colors.BLACK, FigureNames.PAWN)
-      this.cells[6][i].figure = new Pawn(Colors.WHITE, FigureNames.PAWN)
+      new Pawn(Colors.WHITE, this.cells[6][i])
+      new Pawn(Colors.BLACK, this.cells[1][i])
     }
   }
 
-  addKings() {
-    this.cells[0][4].figure = new King(Colors.BLACK, FigureNames.KING)
-    this.cells[7][4].figure = new King(Colors.WHITE, FigureNames.KING)
+  public addKings() {
+    new King(Colors.BLACK, this.cells[0][4])
+    new King(Colors.WHITE, this.cells[7][4])
   }
 
-  addQueens() {
-    this.cells[0][3].figure = new Queen(Colors.BLACK, FigureNames.QUEEN)
-    this.cells[7][3].figure = new Queen(Colors.WHITE, FigureNames.QUEEN)
+  public addQueens() {
+    new Queen(Colors.BLACK, this.cells[0][3])
+    new Queen(Colors.WHITE, this.cells[7][3])
   }
 
-  addBishops(){
-    this.cells[0][5].figure = new Bishop(Colors.BLACK, FigureNames.BISHOP)
-    this.cells[0][2].figure = new Bishop(Colors.BLACK, FigureNames.BISHOP)
-    this.cells[7][2].figure = new Bishop(Colors.WHITE, FigureNames.BISHOP)
-    this.cells[7][5].figure = new Bishop(Colors.WHITE, FigureNames.BISHOP)
+  public addBishops(){
+    new Bishop(Colors.BLACK, this.cells[0][5])
+    new Bishop(Colors.BLACK, this.cells[0][2])
+    new Bishop(Colors.WHITE, this.cells[7][2])
+    new Bishop(Colors.WHITE, this.cells[7][5])
   }
 
-  addKnights() {
-    this.cells[0][6].figure = new Knight(Colors.BLACK, FigureNames.KNIGHT)
-    this.cells[0][1].figure = new Knight(Colors.BLACK, FigureNames.KNIGHT)
-    this.cells[7][1].figure = new Knight(Colors.WHITE, FigureNames.KNIGHT)
-    this.cells[7][6].figure = new Knight(Colors.WHITE, FigureNames.KNIGHT)
+  public addKnights() {
+    new Knight(Colors.BLACK, this.cells[0][6])
+    new Knight(Colors.BLACK, this.cells[0][1])
+    new Knight(Colors.WHITE, this.cells[7][1])
+    new Knight(Colors.WHITE, this.cells[7][6])
   }
 
-  addRooks() {
-    this.cells[0][7].figure = new Rook(Colors.BLACK, FigureNames.ROOK)
-    this.cells[0][0].figure = new Rook(Colors.BLACK, FigureNames.ROOK)
-    this.cells[7][0].figure = new Rook(Colors.WHITE, FigureNames.ROOK)
-    this.cells[7][7].figure = new Rook(Colors.WHITE, FigureNames.ROOK)
+  public addRooks() {
+    new Rook(Colors.BLACK, this.cells[0][7])
+    new Rook(Colors.BLACK, this.cells[0][0])
+    new Rook(Colors.WHITE, this.cells[7][0])
+    new Rook(Colors.WHITE, this.cells[7][7])
   }
 
-  initFigures() {
+  public initFigures() {
     this.addPawns()
     this.addKings()
     this.addQueens()
     this.addBishops()
     this.addKnights()
     this.addRooks()
-    let tempFigure = this.cells[1][0].figure
-    this.cells[1][0].figure = null
-    this.cells[3][0].figure = tempFigure
   }
 
-  deleteFigures() {
+  public highlightCells(selectedCell: Cell | null) {
+    for (let i = 0; i < this.cells.length; i++) {
+      const row = this.cells[i]
+      for (let j = 0; j < row.length; j++) {
+        const target = row[j];
+        target.available = !!selectedCell?.figure?.canMove(target)
+      }
+    }
+  }
+
+  public updateBoard() {
+    const newBoard = new Board();
+    newBoard.cells = this.cells
+    return newBoard
+  }
+
+  public deleteFigures() {
     console.log(this.cells)
     this.cells[0][1].figure = null
   }
